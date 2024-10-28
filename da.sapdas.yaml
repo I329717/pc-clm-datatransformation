@@ -1,0 +1,12 @@
+schema_version: 1.0.0
+name: datatransformation
+capabilities:
+  - type: local
+    folder: ./obt
+  - type: local
+    folder: ./mc
+
+conversational_search: # optional: enable conversational search feature
+  enabled: true
+  product_filter: # products the search will be perfomed on (SAP Help Product IDs)
+    - SAP_S4HANA_CLOUD

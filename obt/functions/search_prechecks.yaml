@@ -1,0 +1,37 @@
+parameters:
+  - name: date
+    optional: true
+
+action_groups:
+  - actions:
+      - type: api-request
+        method: GET
+        system_alias: S4HANA_PUB_SSO
+        path: /sap/opu/odata/sap/LTR2_TDP_SRV/PreCheckSet?$top=10
+        headers:
+            Content-Type: "application/json"
+            Accept: "application/json"
+        result_variable: result_data
+  - condition: result_data != null && result_data.body.d.results.size() > 0
+    actions:
+      - type: set-variables
+        variables:
+          - name: result_data
+            value: "<? result_data.body.d.results ?>"
+      - type: dialog-function
+        name: display_prechecks
+        parameters:
+          - name: prechecks
+            value: "<? result_data ?>"
+  - condition: result_data == null || result_data.status_code != 200
+    actions:
+      - type: message
+        message:
+          type: text
+          content: An error occured when fetching system readiness check
+  - condition: result_data != null && result_data.body.d.results.size() == 0
+    actions:
+      - type: message
+        message:
+          type: text
+          content: No system readiness checks found

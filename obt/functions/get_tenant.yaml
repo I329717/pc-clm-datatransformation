@@ -1,0 +1,44 @@
+parameters:
+  - name: targetSystem
+    optional: true
+
+action_groups:
+  - actions:
+      - type: api-request
+        method: GET
+        system_alias: S4HANA_PUB_SSO
+        path: /sap/opu/odata/sap/LTR2_TDP_SRV/TargetTenantSet
+        headers:
+          Content-Type: "application/json"
+          Accept: "application/json"
+        result_variable: result_data
+  - condition: result_data == null || result_data.status_code != 200
+    actions:
+      - type: message
+        message:
+          type: text
+          content: An error occured when fetching tenants
+  - condition: targetSystem != null
+    actions:
+      - type: set-variables
+        scripting_type: handlebars
+        variables:
+          - name: PreCheckSet
+            value: >
+              {{#each result_data.body.d.results}}
+                {{#if (eq this.SystemId ../targetSystem)}}
+                 {"TargetSystemId": "{{SystemId}}", "TargetClient": "{{Client}}", "TargetTenantId": "{{TenantID}}" }
+                {{/if}}
+              {{/each}}"
+  - condition: targetSystem == null
+    actions:
+      - type: set-variables
+        scripting_type: handlebars
+        variables:
+          - name: PreCheckSet
+            value: >
+              {{#with (lookup result_data.body.d.results 0)}}
+               {"TargetSystemId": "{{SystemId}}", "TargetClient": "{{Client}}", "TargetTenantId": "{{TenantID}}" }
+               {{/with}}
+result:
+  selectedTarget: "<? PreCheckSet ?>"

@@ -1,0 +1,14 @@
+schema_version: 3.5.0
+
+metadata:
+  namespace: namespace
+  name: obt
+  version: 1.1.0
+  display_name: obt
+  description: Provide the capabilities for object based technology
+
+system_aliases:
+  S4HANA_PUB_SSO:
+    destination: S4HANA_PUB_SSO
+  NavigationService:
+    destination: NavigationService

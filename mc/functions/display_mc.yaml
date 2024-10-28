@@ -1,0 +1,32 @@
+parameters:
+  - name: mcprojects
+action_groups:
+  - condition: true
+    actions:
+      - type: message
+        scripting_type: handlebars
+        message: >
+          {
+            "type": "list",
+            "content": {
+              "title": "Migration Projects",
+              "elements": [
+                {{#eachJoin mcprojects}}
+                  {
+                    "title": "Migration Project: {{fMigrationProjectName}}",
+                    "description": "Migration Project UUID: {{MigrationProjectUUID}}\nMigration Scenario: {{MigrationScenario}}\nMigration Approach: {{MigrationApproach}}",
+                    "imageStyle": "default",
+                    "buttons": [
+                          {
+                            "type": "navigation",
+                            "title": "Open",
+                            "navigation_target": {
+                              "url": "{{''}}"
+                            }
+                          }
+                        ]
+                  }
+                {{/eachJoin}}
+              ]
+            }
+          }

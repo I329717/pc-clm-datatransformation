@@ -1,0 +1,32 @@
+parameters:
+  - name: prechecks
+action_groups:
+  - condition: true
+    actions:
+      - type: message
+        scripting_type: handlebars
+        message: >
+          {
+            "type": "list",
+            "content": {
+              "title": "System Readiness Checks",
+              "elements": [
+                {{#eachJoin prechecks}}
+                  {
+                    "title": "RunDate: {{formatDate CheckDateTime "DD-MM-YYYY - HH:mm"}}",
+                    "description": "RunDate: Date: {{formatDate CheckDateTime "DD-MM-YYYY - HH:mm"}}\nEmbedded Specification: {{WorkSetGuid}}\nStatus: {{Situation}}",
+                    "imageStyle": "default",
+                    "buttons": [
+                          {
+                            "type": "navigation",
+                            "title": "Open",
+                            "navigation_target": {
+                              "url": "{{SummaryDocument.__deferred.uri}}"
+                            }
+                          }
+                        ]
+                  }
+                {{/eachJoin}}
+              ]
+            }
+          }

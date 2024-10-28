@@ -1,0 +1,13 @@
+description: The function used to view migration projects
+
+slots:
+  - name: date
+    description: The creation date of the migration projects
+
+target:
+  type: function
+  name: search_mc
+
+conversation_starter:
+  title: What is migration cockpit
+  trigger_utterance: View migration projects

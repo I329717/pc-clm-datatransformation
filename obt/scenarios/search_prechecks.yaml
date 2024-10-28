@@ -1,0 +1,13 @@
+description: The function used to view created system readiness checks
+
+slots:
+  - name: date
+    description: The creation date of the system readiness checks
+
+target:
+  type: function
+  name: search_prechecks
+
+conversation_starter:
+  title: What is system readiness checks
+  trigger_utterance: View created system readiness checks

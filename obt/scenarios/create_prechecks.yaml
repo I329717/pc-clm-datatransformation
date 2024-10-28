@@ -1,0 +1,9 @@
+description: The function used to create a system readiness checks
+
+slots:
+  - name: targetSystem
+    description: The target system that system readiness checks are created for
+
+target:
+  type: function
+  name: create_prechecks

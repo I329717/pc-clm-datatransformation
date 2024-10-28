@@ -1,0 +1,39 @@
+parameters:
+  - name: targetSystem
+    optional: true
+
+action_groups:
+  - actions:
+      - type: dialog-function
+        name: get_tenant
+        parameters:
+          - name: targetSystem
+            value: "<? targetSystem ?>"
+        result_variable: tenantResult
+  - actions:
+      - type: api-request
+        method: POST
+        system_alias: S4HANA_PUB_SSO
+        path: /sap/opu/odata/sap/LTR2_TDP_SRV/PreCheckSet
+        body: <? tenantResult.selectedTarget ?>
+        result_variable: result_data
+  - condition: result_data != null && result_data.body.d.results.size() > 0
+    actions:
+      - type: set-variables
+        variables:
+          - name: result_data
+            value: "<? result_data.body.d.results ?>"
+      - type: dialog-function
+        name: search_prechecks
+  - condition: result_data == null || result_data.status_code != 200
+    actions:
+      - type: message
+        message:
+          type: text
+          content: An error occured when create system readiness check
+  - condition: result_data != null && result_data.body.d.results.size() == 0
+    actions:
+      - type: message
+        message:
+          type: text
+          content: No system readiness check created
