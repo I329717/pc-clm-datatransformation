@@ -13,7 +13,7 @@ action_groups:
               "elements": [
                 {{#eachJoin mcprojects}}
                   {
-                    "title": "Migration Project: {{fMigrationProjectName}}",
+                    "title": "Migration Project: {{MigrationProjectName}}",
                     "description": "Migration Project UUID: {{MigrationProjectUUID}}\nMigration Scenario: {{MigrationScenario}}\nMigration Approach: {{MigrationApproach}}",
                     "imageStyle": "default",
                     "buttons": [
