@@ -1,5 +1,6 @@
 parameters:
   - name: mcprojects
+  - name: url_result
 action_groups:
   - condition: true
     actions:
@@ -21,7 +22,13 @@ action_groups:
                             "type": "navigation",
                             "title": "Open",
                             "navigation_target": {
-                              "url": "{{''}}"
+                              "ibnTarget": {
+                                "semanticObject": "DataMigration",
+                                "action": "manage"
+                                },
+                              "ibnParams": {
+                                 "ShowProjectObjects": "{{MigrationProjectUUID}}"
+                                }
                             }
                           }
                         ]

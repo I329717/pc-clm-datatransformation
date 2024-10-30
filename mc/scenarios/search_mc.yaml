@@ -9,5 +9,15 @@ target:
   name: search_mc
 
 conversation_starter:
-  title: What is migration cockpit
+  title: View migration cockpit
   trigger_utterance: View migration projects
+
+#visibility_condition:
+#  objects:
+#    - type: ibn_targets
+#      match: ALL
+#      intents:
+#        - semantic_object: DataMigration
+#          action: manage
+#        - semantic_object: DataMigration
+#          action: monitor

@@ -16,6 +16,7 @@ action_groups:
         system_alias: S4HANA_PUB_SSO
         path: /sap/opu/odata/sap/LTR2_TDP_SRV/PreCheckSet
         body: <? tenantResult.selectedTarget ?>
+        timeout: 45
         result_variable: result_data
   - condition: result_data != null && result_data.body.d.results.size() > 0
     actions:

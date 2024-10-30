@@ -9,5 +9,5 @@ target:
   name: search_prechecks
 
 conversation_starter:
-  title: What is system readiness checks
+  title: View system readiness checks
   trigger_utterance: View created system readiness checks

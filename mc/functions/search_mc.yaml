@@ -19,10 +19,23 @@ action_groups:
           - name: result_data
             value: "<? result_data.body.d.results ?>"
       - type: dialog-function
+        name: generate_nav_url
+        parameters:
+          - name: semanticObject
+            value: "DataMigration"
+          - name: action
+            value: "manage"
+          - name: parameters
+            value: >
+              {}
+        result_variable: url_result
+      - type: dialog-function
         name: display_mc
         parameters:
           - name: mcprojects
             value: "<? result_data ?>"
+          - name: url_result
+            value: "<? url_result?>"
   - condition: result_data == null || result_data.status_code != 200
     actions:
       - type: message

@@ -1,0 +1,27 @@
+parameters:
+  - name: semanticObject
+  - name: action
+  - name: parameters
+action_groups:
+  - condition: "true"
+    actions:
+      - type: api-request
+        method: POST
+        system_alias: NavigationService
+        path: "/navigation/api/v2/resolve/bulk"
+        body: >
+          { "requestList": [
+            { "semanticObject": "<? semanticObject ?>",
+              "semanticObjectAction": "<? action ?>",
+              "intentParameters": { "ShowProjectObjects": "qvTjQVTj7j{bp71TGtOY6G"  },
+              "launchType": "central" } ]
+          }
+        result_variable: navigationServiceResult
+  - condition: navigationServiceResult != null && has(navigationServiceResult.body) && has(navigationServiceResult.body.value)
+    actions:
+      - type: set-variables
+        variables:
+          - name: url
+            value: "<? navigationServiceResult.body.value[0].url ?>"
+result:
+  resolvedUrl: <? url ?>
