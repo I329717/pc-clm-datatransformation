@@ -1,7 +1,5 @@
 parameters:
-  - name: semanticObject
-  - name: action
-  - name: parameters
+  - name: requestBody
 action_groups:
   - condition: "true"
     actions:
@@ -9,13 +7,7 @@ action_groups:
         method: POST
         system_alias: NavigationService
         path: "/navigation/api/v2/resolve/bulk"
-        body: >
-          { "requestList": [
-            { "semanticObject": "<? semanticObject ?>",
-              "semanticObjectAction": "<? action ?>",
-              "intentParameters": { "ShowProjectObjects": "qvTjQVTj7j{bp71TGtOY6G"  },
-              "launchType": "central" } ]
-          }
+        body: <? requestBody ?>
         result_variable: navigationServiceResult
   - condition: navigationServiceResult != null && has(navigationServiceResult.body) && has(navigationServiceResult.body.value)
     actions:
@@ -23,5 +15,11 @@ action_groups:
         variables:
           - name: url
             value: "<? navigationServiceResult.body.value[0].url ?>"
+  - condition: navigationServiceResult != null
+    actions:
+      - type: set-variables
+        variables:
+          - name: url
+            value: "<? navigationServiceResult ?>"
 result:
   resolvedUrl: <? url ?>

@@ -15,7 +15,7 @@ action_groups:
                 {{#eachJoin mcprojects}}
                   {
                     "title": "Migration Project: {{MigrationProjectName}}",
-                    "description": "Migration Project UUID: {{MigrationProjectUUID}}\nMigration Scenario: {{MigrationScenario}}\nMigration Approach: {{MigrationApproach}}",
+                    "description": "Migration Project UUID: {{MigrationProjectUUID}} Migration Scenario: {{MigrationScenario}} Migration Approach: {{MigrationApproach}}",
                     "imageStyle": "default",
                     "buttons": [
                           {

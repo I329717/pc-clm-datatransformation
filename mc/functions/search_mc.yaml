@@ -9,8 +9,8 @@ action_groups:
         system_alias: S4HANA_PUB_SSO
         path: /sap/opu/odata/ltb/MIG_MC_ODATA_SRV/MigrationProjectSet?$top=10
         headers:
-            Content-Type: "application/json"
-            Accept: "application/json"
+          Content-Type: "application/json"
+          Accept: "application/json"
         result_variable: result_data
   - condition: result_data != null && result_data.body.d.results.size() > 0
     actions:
@@ -18,16 +18,30 @@ action_groups:
         variables:
           - name: result_data
             value: "<? result_data.body.d.results ?>"
+      - type: set-variables
+        scripting_type: handlebars
+        variables:
+          - name: nav_req_body
+            value: >
+              { "requestList": [
+                {{#eachJoin result_data}}
+                   {{#if MigrationProjectUUID}}
+                      { "semanticObject": "DataMigration",
+                        "semanticObjectAction": "manage",
+                        "intentParameters": {
+                          "ShowProjectObjects": "{{MigrationProjectUUID}}/{{MigrationApproachUUID}}"
+                         },
+                        "correlationId": "{{@index}}",
+                        "launchType": "central" }
+                   {{/if}}
+                {{/eachJoin}} ],
+                "deviceType": "desktop"
+              }
       - type: dialog-function
         name: generate_nav_url
         parameters:
-          - name: semanticObject
-            value: "DataMigration"
-          - name: action
-            value: "manage"
-          - name: parameters
-            value: >
-              {}
+          - name: requestBody
+            value: <? nav_req_body ?>              
         result_variable: url_result
       - type: dialog-function
         name: display_mc
