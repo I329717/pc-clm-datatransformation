@@ -27,7 +27,7 @@ action_groups:
                                 "action": "manage"
                                 },
                               "ibnParams": {
-                                 "ShowProjectObjects": "{{MigrationProjectUUID}}"
+                                 "ShowProjectObjects": "{{MigrationProjectUUID}}/{{MigrationApproachUUID}}"
                                 }
                             }
                           }
@@ -36,5 +36,4 @@ action_groups:
                 {{/eachJoin}}
               ]
             }
-          }
-bu
+          }         

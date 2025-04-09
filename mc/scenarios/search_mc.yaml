@@ -1,16 +1,21 @@
 description: The function used to view migration projects
 
 slots:
-  - name: date
-    description: The creation date of the migration projects
+  - name: project_name
+    description: The name of the migration project
+  - name: created_on
+    description: The date of the migration project created on, fomrat to YYYYMMDD
+  - name: status
+    description: The status of the migration project
+
 
 target:
   type: function
   name: search_mc
 
 conversation_starter:
-  title: View migration cockpit
-  trigger_utterance: View migration projects
+  title: view.migration.projects.title
+  trigger_utterance: view.migraiton.projects.trigger_utterance
 
 #visibility_condition:
 #  objects:

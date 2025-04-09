@@ -1,13 +1,60 @@
 parameters:
-  - name: date
+  - name: project_name
+    optional: true
+  - name: created_on
+    optional: true
+  - name: status
     optional: true
 
 action_groups:
   - actions:
+      - type: set-variables
+        variables:
+          - name: odata_filters
+            value: []
+  - condition: project_name != null
+    actions:
+      - type: set-variables
+        variables:
+          - name: name_filter
+            value:
+              service-attribute: MigrationProjectName
+              filter-operator: eq
+              service-value: <? project_name ?>
+          - name: odata_filters
+            value: <? odata_filters.append(name_filter) ?>
+  - condition: created_on != null
+    actions:
+      - type: set-variables
+        variables:
+          - name: date_filter
+            value:
+              service-attribute: CreatedAt
+              filter-operator: ge
+              service-value: '<? created_on ?>'
+          - name: odata_filters
+            value: <? odata_filters.append(date_filter) ?>
+  - condition: status != null
+    actions:
+      - type: set-variables
+        variables:
+          - name: status_filter
+            value:
+              service-attribute: MigrationProjectStatus
+              filter-operator: eq
+              service-value: <? status ?>
+          - name: odata_filters
+            value: <? odata_filters.append(status_filter) ?>
+  - actions:
+      - type: set-variables
+        scripting_type: handlebars
+        variables:
+          - name: filter_string
+            value: "{{odataFilter odata_filters}}"
       - type: api-request
         method: GET
         system_alias: S4HANA_PUB_SSO
-        path: /sap/opu/odata/ltb/MIG_MC_ODATA_SRV/MigrationProjectSet?$top=10
+        path: "/sap/opu/odata/ltb/MIG_MC_ODATA_SRV/MigrationProjectSet?$format=json&$top=5<? filter_string != null ? '&$filter=' + filter_string : '' ?>"
         headers:
           Content-Type: "application/json"
           Accept: "application/json"
